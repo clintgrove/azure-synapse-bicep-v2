@@ -30,4 +30,4 @@ steps:
   inputs:
     azureSubscription: clintazrealallrgs
     scriptLocation: 'inlineScript'
-    inlineScript: 'az synapse role assignment create --workspace-name $(r_synapseWorkspace.synapse_workspace_name.value) --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
+    inlineScript: 'az synapse role assignment create --workspace-name $(r_synapseWorkspace.name.value) --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
