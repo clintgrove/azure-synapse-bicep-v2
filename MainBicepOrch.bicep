@@ -1,7 +1,7 @@
 // Source https://github.com/Azure/azure-synapse-analytics-end2end/blob/main/Deploy/modules/SynapseDeploy.bicep
 //Synapse Workspace Parameters
 @description('Synapse Workspace Name')
-param synapseWorkspaceName string = 'synclintbicep52'
+param synapseWorkspaceName string = 'groovywstest'
 
 @description('SQL Admin User Name')
 param synapseSqlAdminUserName string = 'sqladmin'
@@ -31,7 +31,7 @@ param synapseManagedRGName string = '${synapseWorkspaceName}-mrg2'
 
 //Data Lake Parameters
 @description('Synapse Workspace Data Lake Storage Account Name')
-param workspaceDataLakeAccountName string = 'azwksdatalakebicep52'
+param workspaceDataLakeAccountName string = 'stgaccgroovytest'
 
 @description('Deploy Spark Pool')
 param ctrlDeploySynapseSparkPool bool = true
