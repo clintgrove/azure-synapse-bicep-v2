@@ -10,10 +10,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+   deploymentScope: 'Resource Group'
+   azureResourceManagerConnection: clintazreal
+   action: 'Create Or Update Resource Group'
+   resourceGroupName: 'factorystuff'
+   location:  uksouth
+   templateLocation: 'Linked artifact'
+   csmFile: $(Pipeline.Workspace)/BicepModules/MainBicepOrch.bicep
+   #overrideParameters: '-storageAccountType Standard_LRS -synapseSqlAdminPassword $parameter.sqlServerPasswordDA'
+   deploymentMode: 'Incremental'
+   deploymentName: 'DeployPipelineTemplate'
