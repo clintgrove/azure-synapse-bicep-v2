@@ -28,6 +28,6 @@ steps:
 - task: AzureCLI@1
   displayName: 'Assign role "Synapse Administrator"'
   inputs:
-    azureSubscription: 'my_subscription'
+    azureSubscription: clintazrealallrgs
     scriptLocation: 'inlineScript'
     inlineScript: 'az synapse role assignment create --workspace-name $(r_synapseWorkspace.synapse_workspace_name.value) --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
