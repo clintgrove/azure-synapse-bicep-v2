@@ -18,7 +18,7 @@ steps:
    resourceGroupName: 'factorystuff'
    location:  uksouth
    templateLocation: 'Linked artifact'
-   csmFile: $(Pipeline.Workspace)/MainBicepOrch.bicep
+   csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
    #overrideParameters: '-storageAccountType Standard_LRS -synapseSqlAdminPassword $parameter.sqlServerPasswordDA'
    deploymentMode: 'Incremental'
    deploymentName: 'DeployPipelineTemplate'
