@@ -47,7 +47,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     //publicNetworkAccess: Post Deployment Script will disable public network access for vNet integrated deployments.
     managedResourceGroupName: synapseManagedRGName
     managedVirtualNetwork: 'default' 
-    managedVirtualNetworkSettings: {preventDataExfiltration:false}
+    managedVirtualNetworkSettings: {preventDataExfiltration:true}
   }
 
     //Spark Pool
