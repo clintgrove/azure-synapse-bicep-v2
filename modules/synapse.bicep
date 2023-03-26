@@ -30,7 +30,9 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
   properties: {
     azureADOnlyAuthentication: true
     connectivityEndpoints: {}
-
+    cspWorkspaceAdminProperties: {
+      initialWorkspaceAdminObjectId: '4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
+    }
     defaultDataLakeStorage: {
       accountUrl: dataLakeStorageAccountUrl
       createManagedPrivateEndpoint: false
