@@ -17,6 +17,30 @@ param ctrlDeploySynapseSparkPool bool
 var dataLakeStorageAccountUrl = 'https://${workspaceDataLakeAccountName}.dfs.core.windows.net/'
 var azureRBACStorageBlobDataContributorRoleID = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe' //Storage Blob Data Contributor Role
 
+//Data Lake Storage Account
+resource r_workspaceDataLakeAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: workspaceDataLakeAccountName
+  location: resourceLocation
+  properties:{
+    isHnsEnabled: true
+    accessTier:'Hot'
+    networkAcls: {
+      defaultAction: 'Deny' 
+      bypass:'None'
+      resourceAccessRules: [
+        {
+          tenantId: subscription().tenantId
+          resourceId: r_synapseWorkspace.id
+        }
+    ]
+    }
+  }
+  kind:'StorageV2'
+  sku: {
+      name: 'Standard_LRS'
+  }
+}
+
 resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
   name: synapseWorkspaceName 
   location: resourceLocation
@@ -47,7 +71,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     //publicNetworkAccess: Post Deployment Script will disable public network access for vNet integrated deployments.
     managedResourceGroupName: synapseManagedRGName
     managedVirtualNetwork: 'default' 
-    managedVirtualNetworkSettings: {preventDataExfiltration:true}
+    managedVirtualNetworkSettings: {preventDataExfiltration:false}
   }
 
     //Spark Pool
@@ -71,30 +95,12 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     }
 }
 
-//Data Lake Storage Account
-resource r_workspaceDataLakeAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
-  name: workspaceDataLakeAccountName
-  location: resourceLocation
-  properties:{
-    isHnsEnabled: true
-    accessTier:'Hot'
-    networkAcls: {
-      defaultAction: 'Deny' 
-      bypass:'None'
-      resourceAccessRules: [
-        {
-          tenantId: subscription().tenantId
-          resourceId: r_synapseWorkspace.id
-        }
-    ]
-    }
-  }
-  kind:'StorageV2'
-  sku: {
-      name: 'Standard_LRS'
-  }
-}
-
+- task: AzureCLI@1
+  displayName: 'Assign role "Synapse Administrator" on the newly created Synapse workspace to the developer AAD-Group'
+  inputs:
+    azureSubscription: 'my_subscription'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az synapse role assignment create --workspace-name $(deployment_output.synapse_workspace_name.value) --role "Synapse Administrator" --assignee $(AadAdminDeveloperGroupObjectId)'
 //Synapse Workspace Role Assignment as Blob Data Contributor Role in the Data Lake Storage Account
 //https://docs.microsoft.com/en-us/azure/synapse-analytics/security/how-to-grant-workspace-managed-identity-permissions
 resource r_dataLakeRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = {
