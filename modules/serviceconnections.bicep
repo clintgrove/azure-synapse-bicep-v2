@@ -9,6 +9,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' existing =
     properties:{
       administratorType:'ActiveDirectory'
       tenantId: subscription().tenantId
+      login: 'clintgrove@microsoft.com'
       sid: objectPrincipalID
       //uamiPrincipalID
     }
