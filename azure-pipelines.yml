@@ -57,14 +57,14 @@ steps:
   displayName: 'Assign role "Synapse Administrator"'
   inputs:
     azureSubscription: clintazrealallrgs
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
+    scriptLocation: 'scriptPath'
+    scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassign.ps'
 
 
-- task: AzureCLI@1
-  displayName: 'Assign role "Synapse Artifact Publisher"'
-  inputs:
-    azureSubscription: clintazrealallrgs
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Artifact Publisher" --assignee 4793acfe-f553-46a9-acb6-4495d6e84880'
+# - task: AzureCLI@1
+#   displayName: 'Assign role "Synapse Artifact Publisher"'
+#   inputs:
+#     azureSubscription: clintazrealallrgs
+#     scriptLocation: 'inlineScript'
+#     inlineScript: 'az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Artifact Publisher" --assignee 4793acfe-f553-46a9-acb6-4495d6e84880'
     
