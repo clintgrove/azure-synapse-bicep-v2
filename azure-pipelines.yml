@@ -41,10 +41,15 @@ steps:
    deploymentName: 'DeployPipelineTemplate'
    deploymentOutputs: deployment_output
 
-- script:
-    $var=ConvertFrom-Json '$(storageAccountName)'
-    $value=$var.storageAccountName.value
-    Write-Host "##vso[task.setvariable variable=storageAccount;]$value"
+- task:  AzurePowerShell@5
+  inputs:
+    azureSubscription: clintazrealallrgs
+    ScriptType: InlineScript
+    Inline: |
+            $var=ConvertFrom-Json '$(deployment_output)' 
+            $value=$var.synapseWorkspaceName.value 
+            Write-Host "##vso[task.setvariable variable=synname;]$value"
+
 # - task: AzureCLI@1
 #   displayName: 'Assign role "Synapse Administrator"'
 #   inputs:
