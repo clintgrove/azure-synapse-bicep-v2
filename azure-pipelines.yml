@@ -58,7 +58,7 @@ steps:
   inputs:
     azureSubscription: clintazrealallrgs
     scriptLocation: 'scriptPath'
-    scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassign.ps'
+    scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassign.ps1'
 
 
 # - task: AzureCLI@1
