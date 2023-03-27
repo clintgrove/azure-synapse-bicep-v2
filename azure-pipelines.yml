@@ -8,8 +8,19 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+
+parameters:
+ - name: Environment
+   type: string
+   default: 'dev'
+   values:
+     - dev
+     - test
+     - uat
+
 variables:
   - group: Test-vars
+
 steps:
 
 # - task: AzureResourceManagerTemplateDeployment@3
@@ -36,24 +47,24 @@ steps:
    location:  uksouth
    templateLocation: 'Linked artifact'
    csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
-   overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml)'
+   overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml) -synapseWorkspaceName groovyws${{parameters.Environment}}'
    deploymentMode: 'Incremental'
    deploymentName: 'DeployPipelineTemplate'
-   deploymentOutputs: deployment_output
+   deploymentOutputs: synapseWorkspaceName
 
-- task:  AzurePowerShell@5
+
+- task: AzureCLI@1
+  displayName: 'Assign role "Synapse Administrator"'
   inputs:
     azureSubscription: clintazrealallrgs
-    ScriptType: InlineScript
-    Inline: |
-            $var=ConvertFrom-Json '$(deployment_output)' 
-            $value=$var.synapseWorkspaceName.value 
-            Write-Host "##vso[task.setvariable variable=synname;]$value"
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
 
-# - task: AzureCLI@1
-#   displayName: 'Assign role "Synapse Administrator"'
-#   inputs:
-#     azureSubscription: clintazrealallrgs
-#     scriptLocation: 'inlineScript'
-#     inlineScript: 'az synapse role assignment create --workspace-name $(deployment_output.synapseWorkspaceName.value) --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
-#     
+
+- task: AzureCLI@1
+  displayName: 'Assign role "Synapse Artifact Publisher"'
+  inputs:
+    azureSubscription: clintazrealallrgs
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Artifact Publisher" --assignee 4793acfe-f553-46a9-acb6-4495d6e84880'
+    
