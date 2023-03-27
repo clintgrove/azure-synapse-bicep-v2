@@ -1,3 +1,1 @@
-# az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
-az synapse role assignment show --workspace-name groovywstest \
---id 4fe7fc36-b425-420f-a3f4-5e14e084eb5e
+if(az synapse role assignment create --workspace-name groovywstest --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e){az synapse role assignment create --workspace-name groovywstest --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e}else{"false no"}
