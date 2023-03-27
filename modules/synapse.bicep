@@ -29,7 +29,6 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
   }
   properties: {
     azureADOnlyAuthentication: true
-    connectivityEndpoints: {}
     cspWorkspaceAdminProperties: {
       initialWorkspaceAdminObjectId: '4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
     }
@@ -41,10 +40,8 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
 
 
     publicNetworkAccess: 'Enabled'
-
     sqlAdministratorLogin: synapseSqlAdminUserName
     sqlAdministratorLoginPassword:  synapseSqlAdminPassword
-    //publicNetworkAccess: Post Deployment Script will disable public network access for vNet integrated deployments.
     managedResourceGroupName: synapseManagedRGName
     managedVirtualNetwork: 'default' 
     managedVirtualNetworkSettings: {preventDataExfiltration:true}
@@ -69,6 +66,16 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
         }
       }
     }
+}
+
+resource symbolicname 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01' = {
+  name: 'SynapseFirewall'
+  parent: r_synapseWorkspace
+  dependsOn: [r_synapseWorkspace]
+  properties: {
+    startIpAddress: '0.0.0.0'
+    endIpAddress: '255.255.255.255'
+  }
 }
 
 //Data Lake Storage Account
