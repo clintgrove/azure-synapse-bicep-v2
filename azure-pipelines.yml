@@ -38,19 +38,19 @@ steps:
 #     csmParametersFile: '$(System.DefaultWorkingDirectory)/groovyws/TemplateParametersForWorkspace.json'
 #     deploymentMode: 'Incremental'
 
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-   deploymentScope: 'Resource Group'
-   azureResourceManagerConnection: clintazrealallrgs
-   action: 'Create Or Update Resource Group'
-   resourceGroupName: 'factorystuff'
-   location:  uksouth
-   templateLocation: 'Linked artifact'
-   csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
-   overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml) -synapseWorkspaceName groovyws${{parameters.Environment}}'
-   deploymentMode: 'Incremental'
-   deploymentName: 'DeployPipelineTemplate'
-   deploymentOutputs: synapseWorkspaceName
+# - task: AzureResourceManagerTemplateDeployment@3
+#   inputs:
+#    deploymentScope: 'Resource Group'
+#    azureResourceManagerConnection: clintazrealallrgs
+#    action: 'Create Or Update Resource Group'
+#    resourceGroupName: 'factorystuff'
+#    location:  uksouth
+#    templateLocation: 'Linked artifact'
+#    csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
+#    overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml) -synapseWorkspaceName groovyws${{parameters.Environment}}'
+#    deploymentMode: 'Incremental'
+#    deploymentName: 'DeployPipelineTemplate'
+#    deploymentOutputs: synapseWorkspaceName
 
 
 - task: AzureCLI@1
