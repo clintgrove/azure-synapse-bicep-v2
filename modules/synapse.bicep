@@ -71,7 +71,6 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
 resource symbolicname 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01' = {
   name: 'SynapseFirewall'
   parent: r_synapseWorkspace
-  dependsOn: [r_synapseWorkspace]
   properties: {
     startIpAddress: '0.0.0.0'
     endIpAddress: '255.255.255.255'
