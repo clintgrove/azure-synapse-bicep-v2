@@ -56,3 +56,16 @@ module m_SynapseDeploy 'modules/synapse.bicep' = {
     synapseWorkspaceName: synapseWorkspaceName
   }
 }
+
+module m_ServiceConnections 'modules/serviceconnections.bicep' = {
+  dependsOn:[
+    m_SynapseDeploy
+  ]
+  name: 'Service Connections'
+  params:{
+    keyVaultName: ''
+    synapseWorkspaceIdentityPrincipalID: ''
+    synapseWorkspaceName: m_SynapseDeploy.outputs.synapseWorkspaceName
+    objectPrincipalID: '4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
+  }
+}
