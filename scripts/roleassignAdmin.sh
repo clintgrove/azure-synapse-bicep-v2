@@ -1,6 +1,8 @@
 #az synapse role assignment list --workspace-name groovywstest --role "Synapse Administrator" --assignee 4fe7fc36-b425-420f-a3f4-5e14e084eb5e
 objectid=''
 synapseWS='groovywstest'
+echo $objectid
+echo $synapseWS
 if [[ $(az synapse role assignment create --workspace-name $synapseWS --role "Synapse Adminstrator" --assignee $objectid) <0 ]]
 then 
  echo "Assignment already exists" 
