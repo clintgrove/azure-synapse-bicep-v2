@@ -24,21 +24,6 @@ variables:
 steps:
 
 # - task: AzureResourceManagerTemplateDeployment@3
-#   #condition: and(succeed(), eq('${{parameters.doSql}}', 'true'))
-#   displayName: "Create ${{ parameters.ServiceReleased}}"
-#   inputs:
-#     deploymentScope: 'Resource Group'
-#     azureResourceManagerConnection: ${{ parameters.ServiceConnection }}
-#     subscriptionId: ${{ parameters.SubscriptionId }}
-#     action: 'Create Or Update Resource Group'
-#     resourceGroupName: ${{ parameters.ResourceGroupName }}
-#     location: uksouth
-#     templateLocation: 'Linked artifact'
-#     csmFile: '$(System.DefaultWorkingDirectory)/groovyws/TemplateForWorkspace.json'
-#     csmParametersFile: '$(System.DefaultWorkingDirectory)/groovyws/TemplateParametersForWorkspace.json'
-#     deploymentMode: 'Incremental'
-
-# - task: AzureResourceManagerTemplateDeployment@3
 #   inputs:
 #    deploymentScope: 'Resource Group'
 #    azureResourceManagerConnection: clintazrealallrgs
@@ -61,7 +46,7 @@ steps:
     scriptLocation: 'scriptPath'
     #inlineScript: 'if(az synapse role assignment create --workspace-name groovywstest --role "Synapse Administrator" --assignee '4fe7fc36-b425-420f-a3f4-5e14e084eb5e'){"yes"}else{"false no"}'
     scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassignAdmin.sh'
-    arguments: "$synapseWS = 'groovywstest'"
+    arguments: "synapseWS='groovywstest' objectid='4fe7fc36-b425-420f-a3f4-5e14e084eb5e'"
 
 
 # - task: AzureCLI@1
