@@ -23,19 +23,19 @@ variables:
 
 steps:
 
-# - task: AzureResourceManagerTemplateDeployment@3
-#   inputs:
-#    deploymentScope: 'Resource Group'
-#    azureResourceManagerConnection: clintazrealallrgs
-#    action: 'Create Or Update Resource Group'
-#    resourceGroupName: 'factorystuff'
-#    location:  uksouth
-#    templateLocation: 'Linked artifact'
-#    csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
-#    overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml) -synapseWorkspaceName groovyws${{parameters.Environment}}'
-#    deploymentMode: 'Incremental'
-#    deploymentName: 'DeployPipelineTemplate'
-#    deploymentOutputs: synapseWorkspaceName
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+   deploymentScope: 'Resource Group'
+   azureResourceManagerConnection: clintazrealallrgs
+   action: 'Create Or Update Resource Group'
+   resourceGroupName: 'factorystuff'
+   location:  uksouth
+   templateLocation: 'Linked artifact'
+   csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
+   overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml) -synapseWorkspaceName groovyws${{parameters.Environment}}'
+   deploymentMode: 'Incremental'
+   deploymentName: 'DeployPipelineTemplate'
+   deploymentOutputs: synapseWorkspaceName
 
 
 - task: AzureCLI@2
@@ -44,15 +44,15 @@ steps:
     azureSubscription: clintazrealallrgs
     scriptType: bash
     scriptLocation: 'scriptPath'
-    #inlineScript: 'if(az synapse role assignment create --workspace-name groovywstest --role "Synapse Administrator" --assignee '4fe7fc36-b425-420f-a3f4-5e14e084eb5e'){"yes"}else{"false no"}'
     scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassignAdmin.sh'
-    arguments: "groovywstest b3bd2758-369c-4e4c-8bb6-c2ab93db82ad"
+    arguments: "groovyws${{parameters.Environment}} 4fe7fc36-b425-420f-a3f4-5e14e084eb5e"
 
 
-- task: AzureCLI@1
+- task: AzureCLI@2
   displayName: 'Assign role "Synapse Artifact Publisher"'
   inputs:
     azureSubscription: clintazrealallrgs
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az synapse role assignment create --workspace-name groovyws${{parameters.Environment}} --role "Synapse Artifact Publisher" --assignee 4793acfe-f553-46a9-acb6-4495d6e84880'
-    
+    scriptType: bash
+    scriptLocation: 'scriptPath'
+    scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassignArtifact.sh'
+    arguments: "groovyws${{parameters.Environment}} b3bd2758-369c-4e4c-8bb6-c2ab93db82ad"
