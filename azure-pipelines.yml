@@ -32,7 +32,8 @@ steps:
    location:  uksouth
    templateLocation: 'Linked artifact'
    csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
-   overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml) -synapseWorkspaceName groovyws${{parameters.Environment}}'
+   overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml)'
+   csmParametersFile: $(System.DefaultWorkingDirectory)/parameters/${{parameters.Environment}}/bicepparams.json
    deploymentMode: 'Incremental'
    deploymentName: 'DeployPipelineTemplate'
    deploymentOutputs: synapseWorkspaceName
