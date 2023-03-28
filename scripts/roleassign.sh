@@ -3,5 +3,5 @@ if [[ $(az synapse role assignment create --workspace-name groovywstest --role "
 then 
  echo "yes" 
 else 
- echo "false no"
+ az synapse role assignment create --workspace-name groovywstest --role "Synapse Administrator" --assignee '4fe7fc36-b425-420f-a3f4-5e14e084eb5e'
 fi 
