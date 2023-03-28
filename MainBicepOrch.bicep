@@ -33,6 +33,9 @@ param synapseManagedRGName string = '${synapseWorkspaceName}-mrg2'
 @description('Synapse Workspace Data Lake Storage Account Name')
 param workspaceDataLakeAccountName string = 'stgaccgroovytest'
 
+@description('Synapse Workspace Data Lake Storage Container Name')
+param synapseDefaultContainerName string = 'stgaccgroovytest'
+
 @description('Deploy Spark Pool')
 param ctrlDeploySynapseSparkPool bool = true
 
@@ -54,6 +57,7 @@ module m_SynapseDeploy 'modules/synapse.bicep' = {
     synapseSqlAdminPassword: synapseSqlAdminPassword
     synapseSqlAdminUserName: synapseSqlAdminUserName
     synapseWorkspaceName: synapseWorkspaceName
+    synapseDefaultContainerName: synapseDefaultContainerName
   }
 }
 
