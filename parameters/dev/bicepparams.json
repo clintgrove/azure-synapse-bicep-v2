@@ -7,6 +7,9 @@
         },
         "workspaceDataLakeAccountName":{
             "value": "storagelake2clinto876"    
+        },
+        "synapseDefaultContainerName":{
+            "value": "fssyntest"
         }
     }
 }

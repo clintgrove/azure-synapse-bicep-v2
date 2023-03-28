@@ -1,4 +1,4 @@
-param synapseDefaultContainerName string = 'defs'  
+param synapseDefaultContainerName string
 param synapseWorkspaceName string
 param resourceLocation string
 param azenvironment string
