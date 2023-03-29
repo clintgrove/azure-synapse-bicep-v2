@@ -13,7 +13,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- checkout: workspace_publish #repo_main
+#- checkout: workspace_publish #repo_main
   #path: workspace_publish
   
 - task: Synapse workspace deployment@2
