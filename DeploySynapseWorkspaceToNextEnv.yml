@@ -9,7 +9,6 @@ parameters:
    type: string
    default: 'Test'
    values:
-     - Dev
      - Test
      - Uat
 
