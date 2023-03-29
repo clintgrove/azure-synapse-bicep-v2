@@ -6,10 +6,10 @@
             "value": "groovywsdev"
         },
         "workspaceDataLakeAccountName":{
-            "value": "storagelake2clinto876"    
+            "value": "stgaccgroovydev"    
         },
         "synapseDefaultContainerName":{
-            "value": "fssyntest"
+            "value": "defs"
         }
     }
 }

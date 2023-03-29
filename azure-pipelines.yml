@@ -12,14 +12,14 @@ pool:
 parameters:
  - name: Environment
    type: string
-   default: 'test'
+   default: 'Test'
    values:
-     - dev
-     - test
-     - uat
+     - Dev
+     - Test
+     - Uat
 
 variables:
-  - group: Test-vars
+  - group: ${{parameters.Environment}}-vars
 
 steps:
 
@@ -33,7 +33,7 @@ steps:
    templateLocation: 'Linked artifact'
    csmFile: $(System.DefaultWorkingDirectory)/MainBicepOrch.bicep
    overrideParameters: '-synapseSqlAdminPassword $(SqlPassword-gh-simplifiedyaml)'
-   csmParametersFile: $(System.DefaultWorkingDirectory)/parameters/${{parameters.Environment}}/bicepparams.json
+   csmParametersFile: $(System.DefaultWorkingDirectory)/parameters/${{lower(parameters.Environment)}}/bicepparams.json
    deploymentMode: 'Incremental'
    deploymentName: 'DeployPipelineTemplate'
    deploymentOutputs: synapseWorkspaceName
@@ -46,7 +46,7 @@ steps:
     scriptType: bash
     scriptLocation: 'scriptPath'
     scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassignAdmin.sh'
-    arguments: "groovyws${{parameters.Environment}} 4fe7fc36-b425-420f-a3f4-5e14e084eb5e"
+    arguments: "groovyws${{lower(parameters.Environment)}} 4fe7fc36-b425-420f-a3f4-5e14e084eb5e"
 
 
 - task: AzureCLI@2
@@ -56,4 +56,4 @@ steps:
     scriptType: bash
     scriptLocation: 'scriptPath'
     scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassignArtifact.sh'
-    arguments: "groovyws${{parameters.Environment}} b3bd2758-369c-4e4c-8bb6-c2ab93db82ad"
+    arguments: "groovyws${{lower(parameters.Environment)}} b3bd2758-369c-4e4c-8bb6-c2ab93db82ad"
