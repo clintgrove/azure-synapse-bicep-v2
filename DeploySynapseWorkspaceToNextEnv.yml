@@ -1,0 +1,40 @@
+# resources:
+
+#   repositories:
+#   - repository: repo_main
+#     type: git
+#     name: Clint Azure DOps learning
+#     ref: workspace_publish
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: workspace_publish #repo_main
+  #path: workspace_publish
+  
+- task: Synapse workspace deployment@2
+  displayName: 'deployment task for test workspace'
+  inputs:
+    TemplateFile: '$(System.DefaultWorkingDirectory)/groovywsdev/TemplateForWorkspace.json'
+    ParametersFile: '$(System.DefaultWorkingDirectory)/ParamFiles/TemplateParametersForWorkspace_TEST.json'
+    azureSubscription: clintazrealallrgs
+    ResourceGroupName: factorystuff
+    TargetWorkspaceName: groovywstest
+
+
+# - task: Synapse workspace deployment@2
+#   displayName: 'deployment task for UAT workspace'
+#   inputs:
+#     TemplateFile: '$(System.DefaultWorkingDirectory)/groovywsdev/TemplateForWorkspace.json'
+#     ParametersFile: '$(System.DefaultWorkingDirectory)/ParamFiles/TemplateParametersForWorkspace_UAT.json'
+#     azureSubscription: clintazrealallrgs
+#     ResourceGroupName: factorystuff
+#     TargetWorkspaceName: groovywsuat
+
+
+
+
