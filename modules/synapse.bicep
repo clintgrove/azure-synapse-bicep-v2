@@ -34,7 +34,7 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     }
     defaultDataLakeStorage: {
       accountUrl: dataLakeStorageAccountUrl
-      createManagedPrivateEndpoint: false
+      createManagedPrivateEndpoint: true
       filesystem: synapseDefaultContainerName
     }
 
