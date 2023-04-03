@@ -5,6 +5,12 @@
 		"workspaceName": {
 			"value": "groovywsdev"
 		},
+		"AzureSql_Source_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=facstuf-sqlserver-uks-a1.database.windows.net;Initial Catalog=dba-fac-stf-source"
+		},
+		"AzureSql_Target_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=facstuf-sqlserver-uks-a1.database.windows.net;Initial Catalog=dba-facstuff-target"
+		},
 		"groovywsdev-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:groovywsdev.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
