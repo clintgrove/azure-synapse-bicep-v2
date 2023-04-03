@@ -68,12 +68,24 @@ resource r_synapseWorkspace 'Microsoft.Synapse/workspaces@2021-06-01' = {
     }
 }
 
-resource symbolicname 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01' = {
+resource r_firewallrules 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01' = {
   name: 'SynapseFirewall'
   parent: r_synapseWorkspace
   properties: {
     startIpAddress: '0.0.0.0'
     endIpAddress: '255.255.255.255'
+  }
+}
+
+resource r_privateendpoints 'Microsoft.Synapse/workspaces/privateEndpointConnections@2021-06-01' = {
+  name: 'SynapsePrivateEndpoints'
+  parent: r_synapseWorkspace
+  properties: {
+    privateEndpoint: {}
+    privateLinkServiceConnectionState: {
+      description: 'string'
+      status: 'string'
+    }
   }
 }
 
