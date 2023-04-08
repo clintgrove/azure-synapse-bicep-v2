@@ -77,18 +77,6 @@ resource r_firewallrules 'Microsoft.Synapse/workspaces/firewallRules@2021-06-01'
   }
 }
 
-resource r_privateendpoints 'Microsoft.Synapse/workspaces/privateEndpointConnections@2021-06-01' = {
-  name: 'SynapsePrivateEndpoints'
-  parent: r_synapseWorkspace
-  properties: {
-    privateEndpoint: {}
-    privateLinkServiceConnectionState: {
-      description: 'string'
-      status: 'string'
-    }
-  }
-}
-
 //Data Lake Storage Account
 resource r_workspaceDataLakeAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: workspaceDataLakeAccountName
