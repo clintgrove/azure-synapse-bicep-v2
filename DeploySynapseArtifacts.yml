@@ -4,7 +4,7 @@ resources:
 
   - repository: br_workspace_publish
     type: git
-    name: clintgrove/Clint Azure DOps learning
+    name: Clint Azure DOps learning/Clint Azure DOps learning
     ref: workspace_publish
 
 trigger:
