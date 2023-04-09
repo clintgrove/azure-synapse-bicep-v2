@@ -4,7 +4,7 @@ resources:
 
   - repository: br_workspace_publish
     type: git
-    name: Clint Azure DOps learning/Clint Azure DOps learning
+    name: clintgrove/azure-synapse-bicep-v2
     ref: workspace_publish
 
 trigger:
