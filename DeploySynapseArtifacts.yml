@@ -3,7 +3,7 @@ resources:
   repositories:
 
   - repository: br_workspace_publish
-    type: git
+    type: github
     name: clintgrove/azure-synapse-bicep-v2
     ref: workspace_publish
 
