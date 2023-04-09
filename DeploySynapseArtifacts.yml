@@ -1,0 +1,40 @@
+resources:
+
+  repositories:
+
+  - repository: br_workspace_publish
+    type: git
+    name: clintgrove/Clint Azure DOps learning
+    ref: workspace_publish
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+ - name: Environment
+   type: string
+   default: 'Test'
+   values:
+     - Test
+     - Uat
+
+steps:
+- checkout: br_workspace_publish
+- task: Synapse workspace deployment@2
+  displayName: 'deploy artifacts to next workspace'
+  inputs:
+    TemplateFile: '$(System.DefaultWorkingDirectory)/groovywsdev/TemplateForWorkspace.json'
+    ParametersFile: '$(System.DefaultWorkingDirectory)/ParamFiles/TemplateParametersForWorkspace_${{upper(parameters.Environment)}}.json'
+    azureSubscription: clintazrealallrgs
+    ResourceGroupName: factorystuff
+    TargetWorkspaceName: groovyws${{lower(parameters.Environment)}}
+
+
+
+
+
+
+
