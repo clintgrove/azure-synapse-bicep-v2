@@ -1,5 +1,6 @@
-# Azure Synapse - How to promote Synapse artifacts to the next environment
- In this blog I have created a simple synapse deployment. 
+# Azure Synapse - How to build a Synapse Workspace and promote it's artifacts to the next environment
+ In this blog I have created a simple synapse deployment. You will learn about the following things:
+ 
  - Create at a YAML file that will deploy a bicep infrastructure as code file. This bicep file will build a Synapse workspace, a Spark Pool and an Integration Runtime. 
  - Make some pipelines and a Notebook in the Synapse workspace and commit that to the main branch. 
  - Publish from the main branch so that artifacts like pipelines and so on get committed to the "live" workspace
@@ -8,8 +9,28 @@
  
  ## IAC
  ### AzureResourceManagerTemplateDeployment@3
- Info on bicep
+
  When creating a new Synapse Workspace it is necessary to have a linked storage account. We will create this storage account alongside the Synapse workspace. You can find the bicep file in ../modules/synapse.bicep.
+ 
+Starting with the yaml file that kicks off first in the DevOps project, you can see that azure-pipelines.yml has no branch trigger (so no automated CI/CD). It has parameters for the user to select which enviornment to run the pipeline for. It has a library call as you can see in this code
+
+```
+variables:
+     - group: ${{parameters.Environment}}-vars
+```
+This calls a library from your DevOps area
+<br>
+<img width="390" alt="image" src="https://user-images.githubusercontent.com/30802291/231078348-2e918a3e-3f4d-4bc9-ac76-199a46f1c427.png">
+
+The `steps: ` section is where the first task is called to build an Azure resource (in this case our Synapse Workspace and Storage Account)
+
+```
+steps:
+
+- task: AzureResourceManagerTemplateDeployment@3
+```
+
+In the "modules" folder you will see a file called synapse.bicep. This bicep file creates the Synapse Workspace, the Storage Account, the firewall rules, a Spark Pool and does some role assigments.
 
  ### AzureCLI@2
  Running a bash file with arguments
