@@ -32,8 +32,26 @@ steps:
 
 In the "modules" folder you will see a file called synapse.bicep. This bicep file creates the Synapse Workspace, the Storage Account, the firewall rules, a Spark Pool and does some role assigments.
 
+NOTE! The first time you run this, it will probably fail! I know, I haven't found a way around yet. It has to do with the time delay in the Workspace having the firewall settings set up. Inside the bicep file you will see that we open up the firewall to all ip ranges. As I said this is a simple Synapse set up, so no fancy private networks. Just run the same very pipeline again a second time and it will succeed. 
+
  ### AzureCLI@2
  Running a bash file with arguments
+ 
+ In the second task of the azure-pipelines.yml file you will see a AzureCLI@2 task. 
+ ```
+ - task: AzureCLI@2
+  displayName: 'Assign role "Synapse Administrator"'
+  inputs:
+    azureSubscription: clintazrealallrgs
+    scriptType: bash
+    scriptLocation: 'scriptPath'
+    scriptPath: '$(System.DefaultWorkingDirectory)/scripts/roleassignAdmin.sh'
+    arguments: "groovyws${{lower(parameters.Environment)}} 4fe7fc36-b425-420f-a3f4-5e14e084eb5e"
+ ```
+ 
+ As you can see from the display name, I am adding people as users to the Synapse workspace. You can see the bash script "roleassignAdmin.sh" in the scripts/ folder.
+ 
+ The arguments piece took me a while to learn. I hope it comes in handy for you at some point in the future. All you need to do to pass arguments to the .sh file is to put the argument in the right order. You will see that I have two arguments in the argument line above, they are in the correct order according to the variables in the .sh file
  
  
  ## Synapse Artifacts
