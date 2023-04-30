@@ -12,7 +12,7 @@
 
  When creating a new Synapse Workspace it is necessary to have a linked storage account. We will create this storage account alongside the Synapse workspace. You can find the bicep file in ../modules/synapse.bicep.
  
-Starting with the yaml file that kicks off first in the DevOps project, you can see that azure-pipelines.yml has no branch trigger (so no automated CI/CD). 
+To begin, let's take a look at the yaml file that is the first to kick off in the DevOps project. As you may notice, the azure-pipelines.yml file has no branch trigger, indicating that automated CI/CD is not currently in place
 
 It has parameters for the user to select which enviornment to run the pipeline for.
 
