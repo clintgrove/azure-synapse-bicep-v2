@@ -32,6 +32,31 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('workspaceName'), '/Pipeline with wait')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 10
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-29T07:03:56Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/sql source to target')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -334,12 +359,26 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/WorkspaceSystemIdentity')]",
+			"type": "Microsoft.Synapse/workspaces/credentials",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "ManagedIdentity",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Notebook new')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"nbformat": 4,
 				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "SparkPool",
+					"type": "BigDataPoolReference"
+				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
@@ -350,7 +389,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2fab5546-c0aa-4d41-a495-ea37440ae1d9"
+						"spark.autotune.trackingId": "56e5602c-eb4a-4706-b190-0a70fbfbb759"
 					}
 				},
 				"metadata": {
@@ -362,6 +401,21 @@
 					},
 					"language_info": {
 						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/3be2ce56-4a5f-4034-88d7-2953d1819ed3/resourceGroups/factorystuff/providers/Microsoft.Synapse/workspaces/groovywsdev/bigDataPools/SparkPool",
+						"name": "SparkPool",
+						"type": "Spark",
+						"endpoint": "https://groovywsdev.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/SparkPool",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "2.4",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -400,7 +454,7 @@
 						"spark.dynamicAllocation.enabled": "true",
 						"spark.dynamicAllocation.minExecutors": "1",
 						"spark.dynamicAllocation.maxExecutors": "1",
-						"spark.autotune.trackingId": "04d89c67-2b68-4f25-bd2a-b32f8ed4e91d"
+						"spark.autotune.trackingId": "9fd30672-4e6a-4ad8-ad77-ebb6fd7a2acd"
 					}
 				},
 				"metadata": {
@@ -425,13 +479,15 @@
 						"sparkVersion": "2.4",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"# Azure storage access info\r\n",
 							"blob_account_name = \"azureopendatastorage\"\r\n",
@@ -552,6 +608,36 @@
 			"properties": {
 				"privateLinkResourceId": "/subscriptions/3be2ce56-4a5f-4034-88d7-2953d1819ed3/resourceGroups/factorystuff/providers/Microsoft.Sql/servers/facstuf-sqlserver-uks-a1",
 				"groupId": "sqlServer"
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/managedVirtualNetworks/default')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/default/synapse-ws-sql--groovywsdev')]",
+			"type": "Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"privateLinkResourceId": "/subscriptions/3be2ce56-4a5f-4034-88d7-2953d1819ed3/resourceGroups/factorystuff/providers/Microsoft.Synapse/workspaces/groovywsdev",
+				"groupId": "sql",
+				"fqdns": [
+					"groovywsdev.83b1f46e-a4a8-4bf5-ab1f-9b06f1f8eab1.sql.azuresynapse.net"
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/managedVirtualNetworks/default')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/default/synapse-ws-sqlOnDemand--groovywsdev')]",
+			"type": "Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"privateLinkResourceId": "/subscriptions/3be2ce56-4a5f-4034-88d7-2953d1819ed3/resourceGroups/factorystuff/providers/Microsoft.Synapse/workspaces/groovywsdev",
+				"groupId": "sqlOnDemand",
+				"fqdns": [
+					"groovywsdev-ondemand.83b1f46e-a4a8-4bf5-ab1f-9b06f1f8eab1.sql.azuresynapse.net"
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/managedVirtualNetworks/default')]"
