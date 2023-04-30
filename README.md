@@ -14,7 +14,8 @@
  
 Starting with the yaml file that kicks off first in the DevOps project, you can see that azure-pipelines.yml has no branch trigger (so no automated CI/CD). 
 
-It has parameters for the user to select which enviornment to run the pipeline for. 
+It has parameters for the user to select which enviornment to run the pipeline for.
+
 <img width="560" alt="image" src="https://user-images.githubusercontent.com/30802291/235286577-43cdc404-819e-4ab3-accb-769b33b3096c.png">
 
 It calls the DevOps "Library" through the code you can see below, this is helpful to get secrets/passwords etc
@@ -62,12 +63,34 @@ NOTE! The first time you run this, it will probably fail! I know, its not ideal 
  
  
  ## Synapse Artifacts
- ### Creating and publishing in the workspace
- do some work in workspace
- publish
+ ### Creating artifacts in the workspace and publishing
+I have created two pipelines and two notebooks just to put some things in the workspace so that we can promote to the next higher up syanpse. I have set it up so that we have a "test" synapse to promote to from "dev". 
+
  ### Looking at the workspace_publish branch and using that to promote to next environment
- #### a new yaml file and a new release pipeline
- You will have a new yaml file which is in the branch workspace_publish 
+ The most important part to rethink, or think about is that we will be adding our own folder to the workspace_publish branch. This is something that you may have thought not to do, as in, don't mess with this branch because its used automatically by Synapse to store its published artifacts to, an area that we shouldn't touch in case we mess it up and something doesn't work. But no, you are able to add your own folders in here without any problems. 
+ 
+ I have added a folder called "ParamFiles". Go ahead and look in there to see what I have done. 
+ 
+ I have created a template paramter json files for each environment. I have a TEST and a UAT file. Now granted, yes, we have to manually maintain this file, but it saves you a whole lot of hassle. All you have to do is keep it in sync with the template paramter file that lives in "groovywsdev", the one named "TemplateParamterForWorkspace.json". 
+ 
+ You can list all of the parameters in your TEST and UAT parameter files, or you can choose from a variety of them. Most of them you would probably want to include. In our case, its such a simple demonstration that we will take all the parameters. I made a list of them below so that there is no confusion as to what I am talking about. 
+ 
+ <img width="1024" alt="image" src="https://user-images.githubusercontent.com/30802291/235337742-878ed988-6fe4-4a7a-a10d-c2616c9fcdd9.png">
+
+ 
+ #### Create a new yaml file and a new release pipeline
+ You will have a yaml file which is in the main branch called "DeploySynapseArtifacts.yml". This yaml does a checkout to the workspace_publish branch. And then proceeds to do a "Synapse workspace deployment@2" task which is the official way to promote your Synapse artifacts to another Synapse workspace. 
+ 
+ You will have to create yourself a new release pipeline in DevOps. I will show you a picture of mine below
+ 
+ <img width="415" alt="image" src="https://user-images.githubusercontent.com/30802291/235337892-44a50eff-0247-4cde-90bb-fab1400de5b1.png">
+
+> Note: 
+> You will have to rename your parameters to names that are unique, especially for the Storage account. 
+> My Storage Account is called "stgaccgroovydev", but you cannot use this. You will have to change it. 
+
+<img width="583" alt="image" src="https://user-images.githubusercontent.com/30802291/235337975-c8c3cc6d-142b-48e0-9d58-124c52e881a3.png">
+
  
  
  
