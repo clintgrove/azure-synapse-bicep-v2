@@ -67,7 +67,7 @@ NOTE! The first time you run this, it will probably fail! I know, its not ideal 
 I have created two pipelines and two notebooks just to put some things in the workspace so that we can promote to the next higher up syanpse. I have set it up so that we have a "test" synapse to promote to from "dev". 
 
  ### Looking at the workspace_publish branch and using that to promote to next environment
- The most important part to rethink, or think about is that we will be adding our own folder to the workspace_publish branch. This is something that you may have thought not to do, as in, don't mess with this branch because its used automatically by Synapse to store its published artifacts to, an area that we shouldn't touch in case we mess it up and something doesn't work. But no, you are able to add your own folders in here without any problems. 
+ The most important part to rethink, or think about is that we will be adding our own folder to the workspace_publish branch. This is something that you may have thought not to do, as in, don't mess with this branch because its used automatically by Synapse to store its published artifacts to, an area that we shouldn't touch in case we mess it up and something doesn't work. But you are able to add your own folders in here without any problems. 
  
  I have added a folder called "ParamFiles". Go ahead and look in there to see what I have done. 
  
